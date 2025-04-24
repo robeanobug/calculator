@@ -32,6 +32,32 @@ function operate(a, operator, b) {
     }
 }
 
+const display = document.querySelector("#display");
+const numButtons = document.querySelectorAll(".num");
+const operatorButtons = document.querySelectorAll(".operator")
+const equalButton = document.querySelector(".equal")
+const clearButton = document.querySelector(".clear")
+
+let currentInput = '';
+
+numButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        currentInput += button.textContent;
+        display.textContent = currentInput;
+    });
+});
+
+operatorButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        currentInput += button.textContent;
+        display.textContent = currentInput;
+    });
+});
+
+clearButton.addEventListener("click", () => {
+    currentInput = '';
+    display.textContent = currentInput;
+})
 
 // testing
 console.log(add(1, 2)); // expect 3
