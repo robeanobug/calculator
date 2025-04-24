@@ -35,6 +35,18 @@ function operate(a, operator, b) {
     }
 }
 
+function solve() {
+    if (/\/0$/.test(currentInput)) {
+        currentInput = "hahahahahahaha"
+        display.textContent = currentInput;
+        return;
+    }
+    let operation = currentInput.split(expression);
+    currentInput = operate(operation[1], operation[2], operation[3]);
+    currentInput = Math.round(currentInput*10000000000000)/10000000000000;
+    display.textContent = currentInput;
+}
+
 const display = document.querySelector("#display");
 const numButtons = document.querySelectorAll(".num");
 const operatorButtons = document.querySelectorAll(".operator")
@@ -43,9 +55,13 @@ const clearButton = document.querySelector(".clear")
 const backButton = document.querySelector(".backspace");
 
 let currentInput = '';
+const expression = /(\d*\.?\d+)([\+\-\*\/])(\d*\.?\d+)/;
 
 numButtons.forEach(button => {
     button.addEventListener("click", () => {
+        if (typeof currentInput != 'string') {
+            currentInput = '';
+        }
         currentInput += button.textContent;
         display.textContent = currentInput;
     });
@@ -53,6 +69,9 @@ numButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener("click", () => {
+        if (expression.test(currentInput)) {
+            solve();
+        }
         currentInput += button.textContent;
         display.textContent = currentInput;
     });
@@ -64,12 +83,13 @@ clearButton.addEventListener("click", () => {
 });
 
 equalButton.addEventListener("click", () => {
-    let operation = currentInput.split(/(\d+)([\+\-\*\/])(\d+)/);
-    currentInput = operate(operation[1], operation[2], operation[3]);
-    display.textContent = currentInput;
+    // if there's not a complete expression, don't do anything
+    if (!expression.test(currentInput)) return;
+
+    solve();
 });
 
 backButton.addEventListener("click", () => {
-    currentInput = currentInput.split('').slice(0, -1).join('');
+    currentInput = String(currentInput).slice(0, -1);
     display.textContent = currentInput;
 });
