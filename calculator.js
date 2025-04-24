@@ -14,10 +14,6 @@ function divide(a, b) {
     return a / b;
 }
 
-let a = 0;
-let operator = '+'
-let b = 0;
-
 function operate(a, operator, b) {
     a = Number(a);
     b = Number(b);
@@ -43,7 +39,7 @@ function solve() {
     }
     let operation = currentInput.split(expression);
     currentInput = operate(operation[1], operation[2], operation[3]);
-    currentInput = Math.round(currentInput*10000000000000)/10000000000000;
+    currentInput = Math.round(currentInput*100000000000)/100000000000;
     display.textContent = currentInput;
 }
 
@@ -63,17 +59,32 @@ numButtons.forEach(button => {
             currentInput = '';
         }
         currentInput += button.textContent;
+        operatorButtons.forEach(opButton => {
+            opButton.disabled = false;
+        });
         display.textContent = currentInput;
     });
 });
 
 operatorButtons.forEach(button => {
     button.addEventListener("click", () => {
-        if (expression.test(currentInput)) {
+        operatorButtons.forEach(opButton => {
+            opButton.disabled = false;
+        });
+
+        if (/[\+\-\*\/]$/.test(currentInput)) {
+            currentInput = currentInput.slice(0, -1);
+            button.disabled = false;
+            display.textContent = currentInput;
+        } else if (expression.test(currentInput)) {
             solve();
+            button.disabled = false;
         }
+
         currentInput += button.textContent;
         display.textContent = currentInput;
+
+        button.disabled = true;
     });
 });
 
