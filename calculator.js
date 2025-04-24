@@ -19,13 +19,16 @@ let operator = '+'
 let b = 0;
 
 function operate(a, operator, b) {
-    if (operator === "+") {
+    a = Number(a);
+    b = Number(b);
+
+    if (operator == "+") {
         return add(a, b);
-    } else if (operator === "-") {
+    } else if (operator == "-") {
         return subtract(a, b);
-    } else if (operator === "*") {
+    } else if (operator == "*") {
         return multiply(a, b);
-    } else if (operator === "/") {
+    } else if (operator == "/") {
         return divide(a, b);
     } else {
         return "ERROR";
@@ -37,6 +40,7 @@ const numButtons = document.querySelectorAll(".num");
 const operatorButtons = document.querySelectorAll(".operator")
 const equalButton = document.querySelector(".equal")
 const clearButton = document.querySelector(".clear")
+const backButton = document.querySelector(".backspace");
 
 let currentInput = '';
 
@@ -57,14 +61,15 @@ operatorButtons.forEach(button => {
 clearButton.addEventListener("click", () => {
     currentInput = '';
     display.textContent = currentInput;
-})
+});
 
-// testing
-console.log(add(1, 2)); // expect 3
-console.log(subtract(2, 1)); // expect 1
-console.log(multiply(2, 4)); // expect 8
-console.log(divide(4, 2)); // expect 2
-console.log(operate(1, '+', 2)) // expect 3
-console.log(operate(1, '-', 2)) // expect -1
-console.log(operate(1, '*', 2)) // expect 2
-console.log(operate(1, '/', 2)) // expect 0.5
+equalButton.addEventListener("click", () => {
+    let operation = currentInput.split(/(\d+)([\+\-\*\/])(\d+)/);
+    currentInput = operate(operation[1], operation[2], operation[3]);
+    display.textContent = currentInput;
+});
+
+backButton.addEventListener("click", () => {
+    currentInput = currentInput.split('').slice(0, -1).join('');
+    display.textContent = currentInput;
+});

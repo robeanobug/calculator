@@ -13,7 +13,7 @@ body {
 }
 
 button {
-    width: 50px;
+    width: 60px;
     height: 40px;
 }
 
@@ -37,3 +37,6 @@ button {
     margin: 0 auto;
 }
 
+.backspace {
+    width: 125px;
+}
