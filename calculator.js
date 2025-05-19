@@ -37,8 +37,13 @@ function solve() {
         display.textContent = currentInput;
         return;
     }
-    let operation = currentInput.split(expression);
-    currentInput = operate(operation[1], operation[2], operation[3]);
+
+    const match = currentInput.match(expression)
+    if (!match) return
+
+    const [, a, operator, b] = match;
+    
+    currentInput = operate(a, operator, b);
     currentInput = Math.round(currentInput*100000000000)/100000000000;
     display.textContent = currentInput;
 }
@@ -51,7 +56,7 @@ const clearButton = document.querySelector(".clear")
 const backButton = document.querySelector(".backspace");
 
 let currentInput = '';
-const expression = /(\d*\.?\d+)([\+\-\*\/])(\d*\.?\d+)/;
+const expression = /(-?\d*\.?\d+)([\+\-\*\/])(-?\d*\.?\d+)/;
 
 numButtons.forEach(button => {
     button.addEventListener("click", () => {
